@@ -1,0 +1,14 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title> Registro </title>
+</head>
+<body>
+<form  id="contacform"  method="POST">
+    {% csrf_token %}
+        {{form.as_p}}   
+    <button>Enviar</button> 
+</form> 
+</body>
+</html>
