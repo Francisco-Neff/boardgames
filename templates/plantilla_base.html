@@ -1,0 +1,49 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'css/component/variables.css' %}">
+    <link rel="stylesheet" href="{% static 'css/component/header.css' %}">
+    <link rel="stylesheet" href="{% static 'css/component/navegacion.css' %}">
+    <link rel="stylesheet" href="{% static 'css/component/footer.css' %}">
+    <link rel="icon" type="image/x-icon" href="{% static 'img/icon/favicon.ico' %}">
+    <title> {%block title%} {%endblock%} </title>
+    {%block script_head %} {%endblock%}
+</head>
+<body>
+<header id="header"> <h1>Board Games</h1></header>
+<nav id="nav"> 
+<ul>    
+    <li><a href="{% url 'inicio' %}">Inicio</a></li>
+    <li><a>TicTacToe</a>
+    <ul>    
+        <li><a href="{% url 'sala' %}">Sala</a></li>
+    </ul>
+    </li>
+    <li><a>Usuario</a>
+        <ul>
+            {% if user.is_authenticated %}  
+            <li><a href="{% url 'logout' %}">LogOut</a></li> 
+            {%else%} 
+            <li><a href="{% url 'registro' %}">Registrarse</a></li>
+            <li><a href="{% url 'login' %}">Login</a></li>
+            {%endif%} 
+        </ul>
+    </li>
+</ul>
+
+</nav>
+<div id="content">{%block content%} {%endblock%}</div>
+<footer id="footer">
+
+    Creado por: Francisco José Neff Hernandez, Ingeniero en telemática. Contacto en <a href="https://www.linkedin.com/in/francisco-jos%C3%A9-neff-hern%C3%A1ndez/"> LinkedIn </a> <br>
+    Repositorio de este proyecto en <a href="https://github.com/Francisco-Neff/boardgames"> GitHub </a> <br>
+    
+    
+
+</footer>
+{%block body_js%} {%endblock%}
+</body>
+</html>

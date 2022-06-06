@@ -1,13 +1,11 @@
+{%extends "plantilla_base.html"%}
 {% load static %}
-<!DOCTYPE html>
-<html>
-<head>
-    <title> Home </title>
-</head>
-<body>
-<a href="{% url 'inicio' %}" >Inicio</a>
-<a href="{% url 'registro' %}" >Registro</a>
-<a href="{% url 'login' %}">Login</a>
-<a href="{% url 'logout' %}">LogOut</a>
-</body>
-</html>
+
+{%block title%} Inicio {%endblock%}
+
+{%block content%}
+<h3>Bienvenido a Board Games</h3>
+{% if user.is_authenticated %}
+<p> {{ user.username}}</p>
+{%endif%}
+{%endblock%}

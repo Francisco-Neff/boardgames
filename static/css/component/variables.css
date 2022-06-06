@@ -1,0 +1,15 @@
+:root {
+    /*Paleta de colores principales*/
+ --color1:#0f2149;
+ --color2:#1851a8;
+ --color3:#4484ff;
+ --color4: #80c3fd;
+ --color5:#140f07;
+ --color6:white;
+ --color7:#d3d3d3;
+    /*Paleta de colores en fuentes*/
+ --color-font1:whitesmoke;
+ --color-font2:#000000;
+ --color-font3:#3b3b3b;
+ --color-font4:#ff0000;
+}

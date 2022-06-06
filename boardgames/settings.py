@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'channels',
     'users',
     'tictactoe',
     'frontend'
@@ -71,7 +72,16 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'boardgames.wsgi.application'
+#WSGI_APPLICATION = 'boardgames.wsgi.application'
+ASGI_APPLICATION = 'boardgames.asgi.application'
+
+##In-memory channel layer
+CHANNEL_LAYERS = {
+    'default': {
+        "BACKEND": "channels.layers.InMemoryChannelLayer"
+    },
+}
+
 
 
 # Database
@@ -83,7 +93,6 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
 # User validation
 AUTH_USER_MODEL = 'users.GameUsers'
 
@@ -123,9 +132,13 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
-STATIC_URL = '/static/'
+
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
+
+STATIC_URL = '/static/'
+STATIC_DIR = BASE_DIR /  "static"
+STATICFILES_DIRS = [STATIC_DIR,MEDIA_ROOT]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
@@ -134,5 +147,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 # Redirect to home URL after login (Default redirects to /accounts/profile/)
+LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'inicio'
 LOGOUT_REDIRECT_URL = 'login'

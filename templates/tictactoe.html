@@ -1,0 +1,30 @@
+{% extends 'plantilla_base.html' %}
+{% load static %}
+{%block script_head %} 
+<link rel="stylesheet" href="{% static 'css/tictactoe/ttt.css' %}">
+{%endblock%}
+{%block title%} TTT {%endblock%}
+{% block content %}
+<div class="wrapper" >
+    <div id="head" username="{{ user.username}}" id_game="{{id_game}}">
+        <h1>TIC TAC TOE</h1>
+        <h3>{{user.username}} estas jugando en la Sala: {{sala}}</h3>
+    </div>
+    <div id = "tablero" sala = {{sala}} ficha = {{ficha}}>
+        <div class="celda" data-index = '0'></div>
+        <div class="celda" data-index = '1'></div>
+        <div class="celda" data-index = '2'></div>
+        <div class="celda" data-index = '3'></div>
+        <div class="celda" data-index = '4'></div>
+        <div class="celda" data-index = '5'></div>
+        <div class="celda" data-index = '6'></div>
+        <div class="celda" data-index = '7'></div>
+        <div class="celda" data-index = '8'></div>
+    </div>
+    <div id = "turno">Eres las fichas: <strong>{{ficha}}</strong></div>
+</div>
+{% endblock content %}
+
+{% block body_js %}
+<script src = "{% static 'js/game.js' %}"></script>
+{% endblock body_js %}

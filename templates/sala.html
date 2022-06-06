@@ -1,0 +1,19 @@
+{%extends "plantilla_base.html"%}
+{% load static %}
+
+{%block title%} Sala {%endblock%}
+
+{%block content%}
+{% if error %}
+<p>{{error}}</p>
+{% endif %}
+{% if form %}
+<h3>Ingrese el número de sala a la que jugar</h3>
+<form  id="contacform"  method="POST">
+    {% csrf_token %}
+        {{form.as_p}}   
+    <button>Enviar</button> 
+</form> 
+{% endif %}
+
+{%endblock%}

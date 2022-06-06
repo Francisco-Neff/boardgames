@@ -1,0 +1,29 @@
+
+header{
+    background-color:var(--color5);
+    background: linear-gradient(to bottom right, var(--color1), var(--color2) );
+    color:var(--color-font1);
+    font-size:larger;
+    padding-top: 0.5%;
+    padding-bottom: 0.5%;
+    padding-left: 3%;
+    
+}
+body {
+    margin: 0;
+    position: relative;
+    padding-bottom: 0.2em;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+#content {
+    padding-top: 0,5%;
+    padding-left: 4%;
+    padding-right: 3%;
+}
+
+div#content{
+    margin-top: 0,5%;
+}

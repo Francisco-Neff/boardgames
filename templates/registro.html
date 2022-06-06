@@ -1,14 +1,17 @@
+{%extends "plantilla_base.html"%}
 {% load static %}
-<!DOCTYPE html>
-<html>
-<head>
-    <title> Registro </title>
-</head>
-<body>
+
+{%block title%} Registro {%endblock%}
+
+{%block content%}
+{% if msg %}
+<h4>{{msg}}</h4>
+{% else %}
+<h4>Si no dispone de cuenta <a href="{% url 'registro' %}">Registrese</a> para poder acceder a nuestros juegos</h4>
+{% endif %}
 <form  id="contacform"  method="POST">
     {% csrf_token %}
         {{form.as_p}}   
     <button>Enviar</button> 
 </form> 
-</body>
-</html>
+{%endblock%}
