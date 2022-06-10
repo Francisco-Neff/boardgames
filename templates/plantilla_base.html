@@ -25,6 +25,7 @@
     <li><a>Usuario</a>
         <ul>
             {% if user.is_authenticated %}  
+            <li><a href="{% url 'perfil' %}">Mi Perfil</a></li> 
             <li><a href="{% url 'logout' %}">LogOut</a></li> 
             {%else%} 
             <li><a href="{% url 'registro' %}">Registrarse</a></li>

@@ -20,9 +20,12 @@ class TicTacToeConsumer(AsyncJsonWebsocketConsumer):
         )
         await self.accept()
 
+    # Abandono de sala o desconexión.
     async def disconnect(self, close_code):
-        print("Desconectado")
-        # Abandono de sala o desconexión.
+        print("Desconectado",self.id_game)
+        if self.id_game != None:
+            thread=Thread(target=TicTacToe.discPartida,args=(self,self.id_game))
+            thread.start()
         await self.channel_layer.group_discard(
             self.room_group_name,
             self.channel_name
@@ -38,8 +41,6 @@ class TicTacToeConsumer(AsyncJsonWebsocketConsumer):
         mensaje = response.get("mensaje", None)
         if evento == 'MOVE':
             # Send mensaje to room group
-            ### TODO update del estado del tablero 
-            ### Revisar quien empieza siempre si no meter a quien le toca mover
             if mensaje != None:
                 thread=Thread(target=TicTacToe.updateTablero,args=(self,mensaje['id_game'],mensaje['ficha'],mensaje['index']))
                 thread.start()
@@ -64,7 +65,6 @@ class TicTacToeConsumer(AsyncJsonWebsocketConsumer):
             
         if evento == 'END':
             # Send mensaje to room group
-            ### TODO meter el save final del registro.
             if mensaje != None:
                 thread=Thread(target=TicTacToe.cerrarPartida,args=(self,mensaje['id_game'],mensaje['ficha'],mensaje['index'],mensaje['final']))
                 thread.start()

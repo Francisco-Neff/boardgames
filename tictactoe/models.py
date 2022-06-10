@@ -2,6 +2,8 @@ import uuid
 from django.db import models
 from django.db.models import Q
 from django.core.validators import MaxValueValidator
+from django.forms import NullBooleanField
+from pymysql import NULL
 from users.models import GameUsers
 
 # Create your models here.
@@ -41,20 +43,6 @@ class TicTacToe(models.Model):
             if int(sala_cod) == getattr(sala,'sala_cod'): 
                 print('update')
                 id_game = self.updateSala(self,getattr(sala,'id_game'),username,ficha)
-
-        # Se buscan todas las partidas en proceso en la que nuestra selección de ficha coincida con nuestro nombre de jugador para continuarla.
-        if id_game == None:
-            jug = GameUsers.objects.get(username=username)
-            if ficha=='X':
-                salas_empezadas = TicTacToe.objects.filter(Q(sala_cod=sala_cod) & Q(resultado=TicTacToe.Resultado_Posibilidades.proceso) & Q(jugador_X=jug.id_user))
-            elif ficha=='O':
-                salas_empezadas = TicTacToe.objects.filter(Q(sala_cod=sala_cod) & Q(resultado=TicTacToe.Resultado_Posibilidades.proceso) & Q(jugador_O=jug.id_user))
-            for sala in salas_empezadas:
-                print(sala)
-                if int(sala_cod) == getattr(sala,'sala_cod'): 
-                    print(getattr(sala,'jugador_X'))
-                    print('sala empezada')
-                    print(getattr(sala,'id_game'))
 
         # Si no existe ninguna sala iniciada o empezada se crea un nuevo registro.
         if id_game==None:
@@ -121,9 +109,30 @@ class TicTacToe(models.Model):
         else:
             reg.resultado = TicTacToe.Resultado_Posibilidades.empate
         reg.save()
+    
+    def discPartida(self,id_game):
+        """
+        Uno de los jugadores a sufrido una desconexión durante la partida o la ha abandonado. A partir de ahora la partida no sera en tiempo real si no 
+        que se tendrá que buscar a través de views.partidasPendientes.
+        Si el resultado de la partida es 'I' o alguno de los dos jugadores en None esta se borrara por solo tener un jugador activo.
+        """
+        reg = TicTacToe.objects.get(id_game=id_game)
+        print(reg.jugador_O)
+        if reg.resultado == TicTacToe.Resultado_Posibilidades.inciada or reg.jugador_X == None or reg.jugador_O == None:
+            reg.delete()
+        else:    
+            reg.resultado = TicTacToe.Resultado_Posibilidades.abandono
+            reg.save()
+
+    def partidaslog(id_user):
+        """
+        Se encuentra el log de todas las partidas ganadas y perdidas por el jugador
+        """
+        ganadas = TicTacToe.objects.filter((Q(jugador_X=id_user) & Q(resultado='X')) | (Q(jugador_O=id_user) & Q(resultado='O')))
+        perdidas = TicTacToe.objects.filter((Q(jugador_X=id_user) & (Q(resultado='O')|Q(resultado='T'))) | (Q(jugador_O=id_user) & (Q(resultado='X')|Q(resultado='T'))))
+        return ganadas, perdidas
 
     
 
         
 
-        

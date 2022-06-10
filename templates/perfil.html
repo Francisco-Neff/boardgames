@@ -1,0 +1,94 @@
+{%extends "plantilla_base.html"%}
+{% load static %}
+
+{%block title%} Perfil {%endblock%}
+{%block script_head %}
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script type="text/javascript" src="{% static 'js/csrf_cookie.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/sendPUT.js' %}"></script>
+{%endblock%}
+{%block content%}
+
+{% if user.is_authenticated %}
+
+<div id="img-user" class="col-3 bg-light p-3 border">
+    <img  alt="foto_perfil" src="{{user.img_perfil.url}}"/>
+    <p> Modificar Avatar</p>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{avatarform.as_p}}
+        <button class="btn btn-success btn-lg" type="submit"> Enviar </button>
+    </form>
+</div>
+
+<div id="datos-user" class="col-sm-9 bg-light p-3 border">
+    <p> Usuario: {{ user.username}}</p>
+    <p> Email: {{ user.email}}</p>
+    <p> Partidas ganadas: {{ user.ganadas}}</p>
+    <p> Modificar Perfil</p>
+    <form method="PUT" action="{% url 'perfil' %}" id="modPerfil">
+        {% csrf_token %}
+        {{modificarform.as_p}}
+    </form>
+    <button class="btn btn-success btn-lg" onclick=sendPUT()> Enviar </button>
+</div>
+
+<div id="ganadas" class="col-sm-9 bg-light p-3 border">
+{% if ganadas %}
+    <table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col"> Clave </th>
+            <th scope="col"> Jugador Raya </th>
+            <th scope="col"> Jugador Circulo </th>
+            <th scope="col"> Resultado </th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for registro in ganadas %}
+    <tr>
+        <th scope="row" >{{registro.id_game}}</th>
+        <th>{{registro.jugador_X.username}}</th>
+        <th>{{registro.jugador_O.username}}</th>
+        <th>{{registro.resultado}}</th>
+    </tr>
+    {% endfor %}
+    </tbody>
+    </table>
+    {% else %}
+        <h1>No se tienen registros de partidas ganadas</h1>
+    {% endif %}
+</div>
+
+<div id="perdidas" class="col-sm-9 bg-light p-3 border">
+    {% if perdidas %}
+    <table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col"> Clave </th>
+            <th scope="col"> Jugador Raya </th>
+            <th scope="col"> Jugador Circulo </th>
+            <th scope="col"> Resultado </th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for registro in perdidas %}
+    <tr>
+        <th scope="row" >{{registro.id_game}}</th>
+        <th>{{registro.jugador_X.username}}</th>
+        <th>{{registro.jugador_O.username}}</th>
+        <th>{{registro.resultado}}</th>
+    </tr>
+    {% endfor %}
+    </tbody>
+    </table>
+    {% else %}
+        <h1>No se tienen registros de partidas perdidas </h1>
+    {% endif %}
+</div>
+
+
+{%else%}
+<p>Debes de iniciar sesión para ver tu perfil</p>
+{%endif%}
+{%endblock%}

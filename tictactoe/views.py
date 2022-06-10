@@ -25,16 +25,13 @@ class BuscarSala(View):
             # Si no se tiene registro se redirecciona a la partida.
             registros = TicTacToe.objects.filter(sala_cod=int(form.cleaned_data.get('sala')))
             if registros.exists():
-                print('registros1')
                 if form.cleaned_data.get('ficha') == 'X':
                     registros = TicTacToe.objects.filter(Q(sala_cod=int(form.cleaned_data.get('sala'))) & Q(resultado='I') & Q(jugador_X=request.user.id_user))
                 else:
                     registros = TicTacToe.objects.filter(Q(sala_cod=int(form.cleaned_data.get('sala'))) & Q(resultado='I') & Q(jugador_O=request.user.id_user))
-                print(registros)
                 if registros.exists():
                     self.context={'form': BuscarSalaTTTForm(),'error':'La ficha seleccionada esta ocupada o esta sala no tiene un hueco libre'}
                     return render(request, self.template_name, self.context)
-            print('redirect')
             self.context = {'sala':form.cleaned_data.get('sala'),'ficha':form.cleaned_data.get('ficha')}
             return redirect('/ttt/partida/%s?&ficha=%s' %(form.cleaned_data.get('sala'), form.cleaned_data.get('ficha')))
             

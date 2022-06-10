@@ -14,6 +14,12 @@ class RegistroUserForm(UserCreationForm):
             raise forms.ValidationError('Las contraseñas no coinciden')
         return form['password2']
         
-class LoginGamerForm(AuthenticationForm):
-    username = forms.CharField(label='Introduzca su GamerTag',max_length=25)
-    password = forms.CharField(label='Introduzca su contraseña',widget=forms.PasswordInput)
+class ModificarAvatar(forms.ModelForm):
+    class Meta:
+        model=GameUsers
+        fields=['img_perfil']
+
+class ModificarPerfil(forms.ModelForm):
+    class Meta:
+        model=GameUsers
+        fields=['username','email']

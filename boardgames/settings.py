@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
     'channels',
     'users',
     'tictactoe',
@@ -67,6 +68,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.media',
             ],
         },
     },
@@ -82,7 +84,9 @@ CHANNEL_LAYERS = {
     },
 }
 
-
+#REST
+REST_FRAMEWORK = {
+}
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
@@ -138,7 +142,7 @@ MEDIA_ROOT = BASE_DIR / "media"
 
 STATIC_URL = '/static/'
 STATIC_DIR = BASE_DIR /  "static"
-STATICFILES_DIRS = [STATIC_DIR,MEDIA_ROOT]
+STATICFILES_DIRS = [STATIC_DIR]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
